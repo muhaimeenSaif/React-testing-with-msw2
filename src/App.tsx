@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from "react";
+import  _ from 'lodash';
 
 function App() {
  const [data, setData] = useState(null);
@@ -15,7 +16,7 @@ function App() {
         }
         const result = await response.json();
         setData(result);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
       } finally {
         setLoading(false);
@@ -33,8 +34,8 @@ function App() {
       <h1>API Data</h1>
       {data && (
         <div>
-          <h2>{data.title}</h2>
-          <p>{data.body}</p>
+          <h2>{(data as any).title}</h2>
+          <p>{(data as any).body}</p>
         </div>
       )}
     </div>
