@@ -1,38 +1,446 @@
-.App {
-  text-align: center;
+:root {
+  --primary-bg: #ffffff;
+  --secondary-bg: #f8f9fa;
+  --tertiary-bg: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --nav-bg: #343a40;
+  --nav-text: #ffffff;
+  --sidebar-bg: #f8f9fa;
+  --sidebar-border: #dee2e6;
+  --button-primary: #007bff;
+  --button-primary-hover: #0056b3;
+  --button-success: #28a745;
+  --button-success-hover: #1e7e34;
+  --button-danger: #dc3545;
+  --button-danger-hover: #c82333;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.dark-mode {
+  --primary-bg: #1a1a1a;
+  --secondary-bg: #2d2d2d;
+  --tertiary-bg: #404040;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --border-color: #555555;
+  --nav-bg: #000000;
+  --nav-text: #ffffff;
+  --sidebar-bg: #2d2d2d;
+  --sidebar-border: #555555;
+  --button-primary: #0d6efd;
+  --button-primary-hover: #0b5ed7;
+  --button-success: #198754;
+  --button-success-hover: #157347;
+  --button-danger: #dc3545;
+  --button-danger-hover: #bb2d3b;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-dark: rgba(0, 0, 0, 0.5);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Overall container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+/* Fixed top navigation */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--nav-bg);
+  color: var(--nav-text);
+  padding: 1rem 2rem;
+  z-index: 1000;
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-center {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-link {
+  color: var(--nav-text);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-toggle,
+.settings-toggle {
+  background: none;
+  border: none;
+  color: var(--nav-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-toggle:hover,
+.settings-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Left Navigation Sidebar */
+.left-sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  transition: left 0.3s ease;
+  padding-top: 4rem;
+  z-index: 999;
+  box-shadow: 2px 0 5px var(--shadow);
+  overflow-y: auto;
+}
+
+.left-sidebar.open {
+  left: 0;
+}
+
+.left-nav {
+  padding: 2rem 1rem;
+}
+
+.left-nav h3 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.nav-menu {
+  list-style: none;
+}
+
+.nav-menu li {
+  margin-bottom: 0.5rem;
+}
+
+.nav-item {
+  display: block;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: var(--tertiary-bg);
+  transform: translateX(4px);
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 6rem 2rem 2rem;
+  margin-left: 0;
+  margin-right: 0;
+  overflow-y: auto;
+  transition: margin 0.3s ease;
+}
+
+.data-display {
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.data-display h2 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.data-display p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.search-button {
+  background-color: var(--button-success);
   color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px var(--shadow);
 }
 
-.App-link {
-  color: #61dafb;
+.search-button:hover {
+  background-color: var(--button-success-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-dark);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Right Settings Sidebar */
+.right-sidebar {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background-color: var(--sidebar-bg);
+  border-left: 1px solid var(--sidebar-border);
+  transition: right 0.3s ease;
+  padding-top: 4rem;
+  z-index: 999;
+  box-shadow: -2px 0 5px var(--shadow);
+  overflow-y: auto;
+}
+
+.right-sidebar.open {
+  right: 0;
+}
+
+.settings-panel {
+  padding: 2rem 1rem;
+}
+
+.settings-panel h3 {
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.setting-item {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--tertiary-bg);
+  border-radius: 8px;
+}
+
+.setting-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.setting-label span {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.theme-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.theme-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.theme-btn.active {
+  background-color: var(--button-primary);
+  color: white;
+  border-color: var(--button-primary);
+}
+
+.theme-btn:hover:not(.active) {
+  background-color: var(--tertiary-bg);
+}
+
+.setting-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Overlay for mobile */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+/* Loading and error states */
+.loading-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+}
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+  .main-content {
+    margin-left: 0;
+    margin-right: 0;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .left-sidebar.open ~ .main-content {
+    margin-left: 280px;
   }
+  
+  .right-sidebar.open ~ .main-content {
+    margin-right: 320px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .left-sidebar,
+  .right-sidebar {
+    width: 100%;
+  }
+  
+  .left-sidebar {
+    left: -100%;
+  }
+  
+  .right-sidebar {
+    right: -100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-nav {
+    padding: 1rem;
+  }
+  
+  .nav-center {
+    display: none;
+  }
+  
+  .app-title {
+    font-size: 1.2rem;
+  }
+  
+  .main-content {
+    padding: 5rem 1rem 1rem;
+  }
+  
+  .data-display {
+    padding: 1.5rem;
+  }
+  
+  .search-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .settings-panel {
+    padding: 1.5rem 1rem;
+  }
+  
+  .left-nav {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-nav {
+    padding: 0.75rem;
+  }
+  
+  .main-content {
+    padding: 4.5rem 0.75rem 0.75rem;
+  }
+  
+  .data-display {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .theme-btn {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Smooth transitions for theme switching */
+.app-container,
+.top-nav,
+.left-sidebar,
+.right-sidebar,
+.main-content,
+.data-display,
+.setting-item,
+.theme-btn {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

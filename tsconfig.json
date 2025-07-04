@@ -23,7 +23,7 @@
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
     // "newLine": "LF",
     "skipLibCheck": true,
-    "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
+    "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals", "jest"],
     // "baseUrl": "./src",
     "paths": {
       // "@features/*": ["features/*"],
@@ -32,7 +32,7 @@
     }
   },
   "typeAcquisition": {"include": ["jest"]},
-  "include": ["src", "vite.config.ts", "vite-env.d.ts"],
+  "include": ["src", "vite.config.ts", "vite-env.d.ts", "src/**/*"],
   // "exclude": ["**/*.test.tsx", "**/*.test.ts", "docs", "build", "node_modules"]
 //   "exclude": ["docs", "build", "node_modules", "coverage", "vitest.config.js", "jest.config.js", "babel.config.ts" ]
 }

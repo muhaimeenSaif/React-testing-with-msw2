@@ -1,6 +1,9 @@
-# Getting Started with Create React App
+# Getting Started with Vite
+This project was bootstrapped with Vite.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Description
+This is a simple single page web application which have a home page from where you can nagivate to the user search plage by clicking the button " Go To User Search".
+In the user search page you can simply use the input fields to find the expected user. 
 
 ## Available Scripts
 
