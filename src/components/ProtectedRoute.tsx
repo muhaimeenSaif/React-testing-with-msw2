@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
@@ -7,9 +7,16 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, setLastVisitedPath } = useAuth();
+  const location = useLocation();
 
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLastVisitedPath(location.pathname);
+    }
+  }, [location.pathname, isAuthenticated, setLastVisitedPath]);
+
+  return isAuthenticated ? <>{children}</> : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { User } from '../typings/User';
@@ -28,8 +28,14 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { login } = useAuth();  // <-- get login function from context
+  const { login, isAuthenticated, lastVisitedPath } = useAuth();
 
+ // Redirect authenticated users away from login page
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(lastVisitedPath, { replace: true });
+    }
+  }, [isAuthenticated, lastVisitedPath, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,33 +49,17 @@ const Login: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-
     try {
-      // Replace with your actual API endpoint
-    //   const response = await fetch('/api/auth/login', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error('Invalid credentials');
-    //   }
-
-    //   const data = await response.json();
-
-        if( formData.email !== fakeUser.email  && formData.password !== fakeUser.password) {
-            throw new Error('Invalid credentials');
-        }
-        const fakeToken = faker.string.uuid();
-        login(fakeToken)
-        // Store JWT token in localStorage
-        localStorage.setItem('authToken', fakeToken);
-      
-        // Navigate to home page
-        navigate('/home');
+      if( formData.email !== fakeUser.email  && formData.password !== fakeUser.password) {
+          throw new Error('Invalid credentials');
+      }
+      const fakeToken = faker.string.uuid();
+      login(fakeToken)
+      // Store JWT token in localStorage
+      localStorage.setItem('authToken', fakeToken);
+    
+      // Navigate to last visited page or home
+      navigate(lastVisitedPath);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {

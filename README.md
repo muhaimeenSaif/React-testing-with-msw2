@@ -2,8 +2,11 @@
 This project was bootstrapped with Vite.
 
 ## Project Description
-This is a simple single page web application which have a home page from where you can nagivate to the user search plage by clicking the button " Go To User Search".
-In the user search page you can simply use the input fields to find the expected user. 
+This is a simple single page web application.
+
+## Autehntication Info
+Username: testuser@me.com
+Password: password
 
 ## Available Scripts
 
@@ -71,3 +74,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+---
+
+## Model Comparison Project
+
+**Project Date:** 2025-07-03 22:41:45
+
+This project contains model comparison results using codebase switcher:
+
+- `preedit` branch: Original baseline codebase
+- `beetle` branch: Beetle model's response
+- `sonnet` branch: Sonnet model's response
+- `rewrite` branch: Rewritten codebase
