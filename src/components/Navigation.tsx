@@ -1,5 +1,6 @@
-// src/components/Navigation.tsx
 import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router';
 
 interface NavigationProps {
   darkMode?: boolean;
@@ -8,10 +9,12 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ 
   darkMode = false, 
-  onDarkModeToggle 
+  onDarkModeToggle,
 }) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleLeftSidebar = () => {
     setLeftSidebarOpen(!leftSidebarOpen);
@@ -19,6 +22,11 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const toggleRightSidebar = () => {
     setRightSidebarOpen(!rightSidebarOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (
@@ -33,9 +41,9 @@ const Navigation: React.FC<NavigationProps> = ({
         </div>
         <nav className="nav-center">
           <a href="/home" className="nav-link">Home</a>
-          <a href="/user_search" className="nav-link">User Search</a>
+          <a href="/search" className="nav-link">User Search</a>
           <a href="#about" className="nav-link">About</a>
-          <a href="#contact" className="nav-link">Contact Me</a>
+          <a href="/contact" className="nav-link">Contact Me</a>
         </nav>
         <div className="nav-right">
           <button className="settings-toggle" onClick={toggleRightSidebar}>
@@ -95,6 +103,15 @@ const Navigation: React.FC<NavigationProps> = ({
               <span>Auto Save</span>
               <input type="checkbox" className="setting-checkbox" defaultChecked />
             </label>
+          </div>
+          {/* New Logout Button */}
+          <div className="setting-item">
+            <button 
+              className="logout-btn" 
+              onClick={handleLogout}
+            >
+              🚪 Logout
+            </button>
           </div>
         </div>
       </aside>

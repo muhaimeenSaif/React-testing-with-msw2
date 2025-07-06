@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = () => {
+const Layout: React.FC = () => {
   // Initialize dark mode from localStorage or default to false
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('darkMode');
@@ -27,7 +27,7 @@ const Layout: React.FC<LayoutProps> = () => {
     <div className={`app-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
       <Navigation darkMode={darkMode} onDarkModeToggle={toggleDarkMode} />
       <main className="main-content">
-        <Outlet/>
+        <Outlet />
       </main>
     </div>
   );

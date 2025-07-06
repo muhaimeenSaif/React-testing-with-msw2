@@ -26,7 +26,7 @@ function Home() {
   }, []);
 
   const navigateToUserSearch = () => {
-    window.location.href = "/user_search";
+    window.location.href = "/search";
   };
 
   if (loading) return (
