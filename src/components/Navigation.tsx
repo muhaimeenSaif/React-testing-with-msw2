@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router';
+interface Notification {
+  id: string;
+  message: string;
+  time: string;
+  read: boolean;
+  type: 'info' | 'warning' | 'success' | 'error';
+}
 
 interface NavigationProps {
   darkMode?: boolean;
@@ -13,9 +20,43 @@ const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+  const [notificationPanelOpen, setNotificationPanelOpen] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
 
+   // Sample notifications data
+   const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      message: 'Welcome to the application! Your account has been successfully created.',
+      time: '2 minutes ago',
+      read: false,
+      type: 'success'
+    },
+    {
+      id: '2',
+      message: 'System maintenance scheduled for tonight at 2:00 AM.',
+      time: '1 hour ago',
+      read: false,
+      type: 'warning'
+    },
+    {
+      id: '3',
+      message: 'Your profile has been updated successfully.',
+      time: '3 hours ago',
+      read: true,
+      type: 'info'
+    },
+    {
+      id: '4',
+      message: 'New feature: Drag and drop functionality is now available!',
+      time: '1 day ago',
+      read: true,
+      type: 'info'
+    }
+  ]);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
   const toggleLeftSidebar = () => {
     setLeftSidebarOpen(!leftSidebarOpen);
   };
@@ -24,11 +65,33 @@ const Navigation: React.FC<NavigationProps> = ({
     setRightSidebarOpen(!rightSidebarOpen);
   };
 
+  const toggleNotificationPanel = () => {
+    setNotificationPanelOpen(!notificationPanelOpen);
+  };
+
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
+  const markAsRead = (id: string) => {
+    setNotifications(prev => 
+      prev.map(notification => 
+        notification.id === id 
+          ? { ...notification, read: true }
+          : notification
+      )
+    );
+  };
+
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'success': return '✅';
+      case 'warning': return '⚠️';
+      case 'error': return '❌';
+      default: return 'ℹ️';
+    }
+  };
   return (
     <>
       {/* Fixed Top Navigation Bar */}
@@ -46,6 +109,12 @@ const Navigation: React.FC<NavigationProps> = ({
           <a href="/contact" className="nav-link">Contact Me</a>
         </nav>
         <div className="nav-right">
+          <button className="notification-toggle" onClick={toggleNotificationPanel}>
+            🔔
+            {unreadCount > 0 && (
+              <span className="notification-badge">{unreadCount}</span>
+            )}
+          </button>
           <button className="settings-toggle" onClick={toggleRightSidebar}>
             ⚙️
           </button>
@@ -116,8 +185,45 @@ const Navigation: React.FC<NavigationProps> = ({
         </div>
       </aside>
 
+       {/* Notification Panel */}
+       <aside className={`notification-panel ${notificationPanelOpen ? 'open' : ''}`}>
+        <div className="notification-header">
+          <h3 className="notification-title">Notifications</h3>
+        </div>
+        <ul className="notification-list">
+          {notifications.length === 0 ? (
+            <div className="empty-notifications">
+              <div className="empty-notifications-icon">🔔</div>
+              <p>No notifications yet</p>
+            </div>
+          ) : (
+            notifications.map((notification) => (
+              <li 
+                key={notification.id}
+                className={`notification-item ${!notification.read ? 'unread' : ''}`}
+                onClick={() => markAsRead(notification.id)}
+              >
+                <div className="notification-content">
+                  <span className="notification-icon">
+                    {getNotificationIcon(notification.type)}
+                  </span>
+                  <div className="notification-text">
+                    <div className="notification-message">
+                      {notification.message}
+                    </div>
+                    <div className="notification-time">
+                      {notification.time}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))
+          )}
+        </ul>
+      </aside>
+
       {/* Overlay for mobile */}
-      {(leftSidebarOpen || rightSidebarOpen) && (
+      {(leftSidebarOpen || rightSidebarOpen || notificationPanelOpen) && (
         <div 
           className="overlay" 
           onClick={() => {
