@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout: React.FC = () => {
+const MainLayout: React.FC = () => {
   // Initialize dark mode from localStorage or default to false
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('darkMode');
@@ -33,4 +33,4 @@ const Layout: React.FC = () => {
   );
 };
 
-export default Layout;
+export default MainLayout;

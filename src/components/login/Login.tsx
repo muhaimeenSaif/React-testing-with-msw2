@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { User } from '../typings/User';
+import { User } from '../../typings/User';
 import { faker } from '@faker-js/faker';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface LoginFormData {
   email: string;
