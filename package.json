@@ -8,6 +8,9 @@
     "lodash": "^4.17.21",
     "msw": "^2.7.0",
     "react": "^19.0.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0",
     "react-router": "^7.5.3",
     "react-router-dom": "^7.6.3",
@@ -38,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",
